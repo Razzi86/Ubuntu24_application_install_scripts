@@ -11,12 +11,12 @@ chmod +x install_all.sh
 ## Folder Structure
 
 ### Applications/
-- **Bambu/** - 
-- **Brave/** - 
-- **Cursor/** - 
-- **Fusion/** -  
-- **IsaacSim/** -  
-- **Terminator/** - 
+- **Bambu/** 
+- **Brave/** 
+- **Cursor/** 
+- **Fusion/** 
+- **IsaacSim/** 
+- **Terminator/** 
 
 ### ROS2/
 - ROS2 Jazzy install/uninstall
