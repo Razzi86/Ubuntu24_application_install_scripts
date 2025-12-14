@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -e
 
-# Variables
+# set up paths and variables
 ISAAC_DIR="$HOME/isaac-sim"
 ZIP_URL="https://download.isaacsim.omniverse.nvidia.com/isaac-sim-standalone-5.1.0-linux-x86_64.zip"
 ZIP_FILE="$HOME/isaac-sim.zip"
 UNZIP_SUBDIR="$ISAAC_DIR/isaac-sim-standalone-5.1.0-linux-x86_64"
 POST_INSTALL_FLAG="$UNZIP_SUBDIR/.post_install_done"
 
-# Create isaac-sim directory if missing
+# create directory if it doesn't exist
 mkdir -p "$ISAAC_DIR"
 
-# Only unzip if not already unzipped
+# unzip if needed
 if [ ! -d "$UNZIP_SUBDIR" ]; then
-    # Only download zip if it doesn't exist or is invalid
+    # download if missing or corrupted
     if [ ! -f "$ZIP_FILE" ] || ! unzip -tq "$ZIP_FILE" &>/dev/null; then
         echo "Downloading Isaac Sim zip..."
         curl -L "$ZIP_URL" -o "$ZIP_FILE"
@@ -21,7 +21,7 @@ if [ ! -d "$UNZIP_SUBDIR" ]; then
         echo "Isaac Sim zip already exists and is valid, skipping download."
     fi
 
-    # Unzip the zip file
+    # unzip it
     echo "Unzipping Isaac Sim..."
     unzip -q "$ZIP_FILE" -d "$ISAAC_DIR"
 else
@@ -30,7 +30,7 @@ fi
 
 cd "$UNZIP_SUBDIR"
 
-# Run post_install.sh if not already run
+# run post install if needed
 if [ ! -f "$POST_INSTALL_FLAG" ]; then
     echo "Running post_install.sh..."
     chmod +x post_install.sh
@@ -40,11 +40,11 @@ else
     echo "post_install.sh already run, skipping."
 fi
 
-# Run selector
+# run selector if it exists
 if [ -f "./isaac-sim.selector.sh" ]; then
     echo "Running isaac-sim.selector.sh..."
     chmod +x isaac-sim.selector.sh
-    ./isaac-sim.selector.sh
+    # ./isaac-sim.selector.sh
 else
     echo "isaac-sim.selector.sh not found, skipping."
 fi

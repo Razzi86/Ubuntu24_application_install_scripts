@@ -5,7 +5,7 @@ cd ~
 mkdir -p BambuStudio
 cd BambuStudio
 
-# Clone repo if not already cloned
+# clone the repo if we don't have it
 if [ ! -d ".git" ]; then
     echo "Cloning BambuStudio repository..."
     git clone https://github.com/bambulab/BambuStudio.git .
@@ -15,7 +15,7 @@ fi
 
 chmod +x BuildLinux.sh
 
-# Install dependencies (only once)
+# install dependencies (only do this once)
 if [ ! -f ".deps_installed" ]; then
     echo "Installing dependency packages..."
     ./BuildLinux.sh -u
@@ -46,9 +46,7 @@ else
     echo "Alias 'bambu' already exists in $BASHRC"
 fi
 
-# ================================
-# Add BambuStudio as a desktop application
-# ================================
+# add desktop entry so it shows up in the app launcher
 DESKTOP_DIR="$HOME/.local/share/applications"
 mkdir -p "$DESKTOP_DIR"
 DESKTOP_FILE="$DESKTOP_DIR/BambuStudio.desktop"
