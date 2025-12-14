@@ -5,7 +5,7 @@ architecture=$2
 
 echo "Checking for NVIDIA GPU and driver..."
 
-# Function to check for NVIDIA GPU and driver
+# check if nvidia gpu and driver are installed
 check_nvidia_driver() {
     if lspci | grep -i nvidia > /dev/null; then
         if nvidia-smi > /dev/null 2>&1; then
@@ -21,18 +21,17 @@ check_nvidia_driver() {
     fi
 }
 
-# Function to install Docker
+# install docker
 install_docker() {
     echo "Installing Docker on the Host Machine"
     sudo apt update
-    
     
     sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
     sudo install -m 0755 -d /etc/apt/keyrings
     sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
     sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-    # Add the repository to Apt sources:
+    # add docker repo
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
@@ -47,7 +46,7 @@ echo \
   echo "Docker Installation finished"
 }
 
-# Function to install NVIDIA Container Toolkit
+# install nvidia container toolkit
 install_nvidia_container_toolkit() {
     echo "Setting up NVIDIA Container Toolkit, make sure you have installed NVIDIA Graphics Driver"
     sudo apt install -y curl
@@ -64,7 +63,7 @@ install_nvidia_container_toolkit() {
     sudo systemctl restart docker
 }
 
-# Check for NVIDIA driver and call the appropriate functions
+# check nvidia and install accordingly
 if check_nvidia_driver; then
     install_docker
     install_nvidia_container_toolkit

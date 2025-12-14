@@ -1,17 +1,16 @@
 #!/bin/sh
 
 
-DOCKER_IMAGE="$1"  # Name of the Docker image.
-ROS2_WS_NAME="$2"    #ROS2 ws name
-CONTAINER_NAME="$3"  # Name of the container you want to create.
+DOCKER_IMAGE="$1"  # docker image name
+ROS2_WS_NAME="$2"    # ros2 workspace name
+CONTAINER_NAME="$3"  # container name
 
+HOST_WS_PATH="/home/$USER/$ROS2_WS_NAME/src"  # path to workspace on host
 
-HOST_WS_PATH="/home/$USER/$ROS2_WS_NAME/src"  # Path to your workspace on the host.
-
-# Get Docker image user
+# get the docker user from the image
 DOCKER_USER=$(docker inspect "$DOCKER_IMAGE" --format '{{.Config.User}}')
 if [ -z "$DOCKER_USER" ]; then
-    DOCKER_USER="ubuntu"  # fallback to host user if not set
+    DOCKER_USER="ubuntu"  # fallback if not set
 fi
 
 xhost +local:docker
@@ -20,7 +19,7 @@ XSOCK=/tmp/.X11-unix
 XAUTH=/tmp/.docker.xauth
 XAUTH_DOCKER=/tmp/.docker.xauth
 
-# Create Xauth if not present
+# create xauth file if needed
 if [ ! -f "$XAUTH" ]; then
     xauth_list=$(xauth nlist :0 | sed -e 's/^..../ffff/')
     if [ ! -z "$xauth_list" ]; then
@@ -31,7 +30,7 @@ if [ ! -f "$XAUTH" ]; then
     chmod a+r "$XAUTH"
 fi
 
-# Check for NVIDIA GPU
+# check for nvidia gpu
 if nvidia-smi | grep -q NVIDIA; then
     echo "NVIDIA GPU detected, initializing container with GPU support"
     docker run -it --network host \
