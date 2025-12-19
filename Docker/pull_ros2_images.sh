@@ -11,5 +11,9 @@ docker pull osrf/ros:jazzy-desktop-full
 echo "Pulling ROS2 Humble desktop..."
 docker pull osrf/ros:humble-desktop-full
 
+# ROS2 Foxy images
+echo "Pulling ROS2 Foxy desktop..."
+docker pull osrf/ros:foxy-desktop
+
 echo "All requested ROS2 Docker images pulled successfully!"
 
